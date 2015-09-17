@@ -1,0 +1,94 @@
+{
+	"Frames":
+	{
+		"Main_Menu":null
+		, "Evaluation_View":null
+	}
+	, "Activation Functions":
+	{
+		"Unit Step":
+		{
+			"Response":["self.DataFrame, self.Normalized_Neg_1_to_1 = Data_Manipulation.Normalize_0_to_1(self.DataFrame, self.Attribute_Count, self.Normalized_Neg_1_to_1)"]
+			, "Function":"lambda x: 1 if x >= 0 else 0"
+			, "Derivative":"lambda x: 1"
+			, "Weights Range":
+			{
+				"Minimum":-1
+				, "Maximum":1
+			}
+		}
+		, "Sigmoid":
+		{
+			"Response":["self.DataFrame, self.Normalized_Neg_1_to_1 = Data_Manipulation.Normalize_0_to_1(self.DataFrame, self.Attribute_Count, self.Normalized_Neg_1_to_1)"]
+			, "Function": "lambda x: 1/(1 + np.exp(-x))"
+			, "Derivative": "lambda x: x*(1-x)"
+			, "Weights Range":
+			{
+				"Minimum":-5
+				, "Maximum":5
+			}
+		}
+		, "Hyperbolic Tangent":
+		{
+			"Response":["GUI_Manipulation.Message(self.Parent.Metadata.Messages['Hyperbolic Tangent Warning'])","self.DataFrame, self.Normalized_Neg_1_to_1 = Data_Manipulation.Normalize_Neg_1_to_1(self.DataFrame, self.Attribute_Count, self.Normalized_Neg_1_to_1)"]
+			, "Function":"lambda x: np.tanh(x)"
+			, "Derivative":"lambda x: np.power((1/np.cosh(x)),2)"
+			, "Weights Range":
+			{
+				"Minimum":-2
+				, "Maximum":2
+			}
+		}
+	}
+	, "Evaluation Methods":
+	{
+		"Cross-validation":
+		{
+			"Response":["self.Percent_Entry.config(state='disabled')","self.Folds_Entry.config(state='normal')"]
+			, "Required": [{"Result = len(self.Folds_Entry.get()) > 0":"Missing Information"}, {"try:\n\tResult = np.int(self.Folds_Entry.get()) < self.Instance_Count\nexcept:\n\tResult = False":"Invalid Folds Count"}]
+		}
+		, "Random Split":
+		{
+			"Response":["self.Folds_Entry.config(state='disabled')","self.Percent_Entry.config(state='normal')"]
+			, "Required":[{"Result = len(self.Percent_Entry.get()) > 0":"Missing Information"},{"try:\n\tResult = 1 <= np.int(self.Percent_Entry.get()) <= 99\nexcept:\n\tResult = False":"Invalid Percent"}]
+		}
+		, "Stratified Split":
+		{
+			"Response":["self.Folds_Entry.config(state='disabled')","self.Percent_Entry.config(state='normal')"]
+			, "Required":[{"Result = len(self.Percent_Entry.get()) > 0":"Missing Information"},{"try:\n\tResult = 1 <= np.int(self.Percent_Entry.get()) <= 99\nexcept:\n\tResult = False":"Invalid Percent"}]
+		}
+		, "Training Data":
+		{
+			"Response":["self.Folds_Entry.config(state='disabled')","self.Percent_Entry.config(state='disabled')"]
+			, "Required":[{"Result = True":"Missing Information"}]
+		}
+	}
+	, "Messages":
+	{
+		"Hyperbolic Tangent Warning":
+		{
+			"Title":"Informational Message"
+			, "Message":"You have selected Hyperbolic Tangent - your input and target values will be re-normalized around a minimum value of -1 and a maximum value of 1. This will be renormalized if you select a different activation funtion."
+		}
+		, "Missing Information":
+		{
+			"Title":"Error"
+			, "Message":"Please select and enter all parameters."
+		}
+		, "Invalid Percent":
+		{
+			"Title":"Error"
+			, "Message":"Please enter a Percent between 1 and 99"
+		}
+		, "Invalid Folds Count":
+		{
+			"Title":"Error"
+			, "Message":"You cannot have a fold count that exceeds the number of instances present in your data. Please enter a valid number of folds."
+		}
+		, "Invalid Value":
+		{
+			"Title":"Error"
+			, "Message":"Please enter a valid value for Hidden Nodes and Epoch count."
+		}
+	}
+}
