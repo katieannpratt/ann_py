@@ -206,7 +206,7 @@ class Main_Menu(Tkinter.Frame):
 			Rows = []
 			for Class in self.Possible_Classes:
 				Sample_Size = np.int(self.DataSet_Builder[(self.DataSet_Builder['Target']==Class)]['Target'].count() * (self.Percent/100))
-				Rows.extend(random.sample(self.DataSet_Builder[self.DataSet_Builder['Targetl']==Class].index, Sample_Size))
+				Rows.extend(random.sample(self.DataSet_Builder[self.DataSet_Builder['Target']==Class].index, Sample_Size))
 			Training_Data = self.DataFrame.ix[Rows]
 			Testing_Data = self.DataFrame.drop(Rows)
 			Model = Train.Backprop_Model(self, Training_Data)
