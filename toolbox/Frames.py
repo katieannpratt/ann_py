@@ -1,8 +1,9 @@
 from __future__ import division
 import numpy as np
-import Tkinter
+import Tkinter as tkinter
 import ttk
 import tkFileDialog
+# from tkinter import filedialog
 import tkFont
 import random
 import copy
@@ -15,7 +16,7 @@ from toolbox import Train
 from toolbox import Test
 
 
-class Main_Menu(Tkinter.Frame):
+class Main_Menu(tkinter.Frame):
 
 	Evaluation_Method = None
 	Activation_Function = None
@@ -23,7 +24,7 @@ class Main_Menu(Tkinter.Frame):
 	Normalized_Neg_1_to_1 = False
 
 	def __init__(self, parent):
-		Tkinter.Frame.__init__(self, parent)
+		tkinter.Frame.__init__(self, parent)
 		self.Parent = parent
 		self.Buttons = []
 		self.Pack()
@@ -31,11 +32,11 @@ class Main_Menu(Tkinter.Frame):
 		self.Buttons.append(self.Load_File_Button)
 
 	def Pack(self):
-		Body = Tkinter.Frame(self)
+		Body = tkinter.Frame(self)
 		Body.pack(pady=20)
-		Top = Tkinter.Frame(self)
-		Middle = Tkinter.Frame(self)
-		Bottom = Tkinter.Frame(self)
+		Top = tkinter.Frame(self)
+		Middle = tkinter.Frame(self)
+		Bottom = tkinter.Frame(self)
 
 		self.Pack_Top(Top)
 		self.Pack_Bottom(Bottom)
@@ -43,31 +44,31 @@ class Main_Menu(Tkinter.Frame):
 		
 	def Pack_Top(self, Location):
 		Location.pack(side = 'top')
-		Load_File_Label = Tkinter.Label(self, wraplength = 350, text='Please load a text file containing all inputs and the target value.\nThe file should be pipe delimited, and have headers.\nThe last column should contain the target.')
+		Load_File_Label = tkinter.Label(self, wraplength = 350, text='Please load a text file containing all inputs and the target value.\nThe file should be pipe delimited, and have headers.\nThe last column should contain the target.')
 		Load_File_Label.pack(in_ = Location)
-		self.Load_File_Button = Tkinter.Button(self, text='Load', width = 20, height = 2, command = self.Load_File)
+		self.Load_File_Button = tkinter.Button(self, text='Load', width = 20, height = 2, command = self.Load_File)
 		self.Load_File_Button.pack(in_ = Location)
 
 	def Pack_Middle(self, Location):
 		Location.pack(side='top', pady = 20)
-		Middle_Left = Tkinter.Frame(self)
-		Middle_Right = Tkinter.Frame(self)
+		Middle_Left = tkinter.Frame(self)
+		Middle_Right = tkinter.Frame(self)
 		Middle_Left.pack(side='left', in_ = Location, padx = 40)
 		Middle_Right.pack(side='right', in_ = Location, padx = 40)
 		self.Pack_Middle_Left(Middle_Left)
 		self.Pack_Middle_Right(Middle_Right)
 
 	def Pack_Middle_Left(self, Location):
-		AF_Label = Tkinter.Label(self, wraplength = 150, justify = 'left', text = 'Please select your activation function:')
+		AF_Label = tkinter.Label(self, wraplength = 150, justify = 'left', text = 'Please select your activation function:')
 		AF_Label.pack(in_=Location, anchor = 'w')
-		Activation_Function_LB = Tkinter.Listbox(self, height = 4, exportselection = False)
+		Activation_Function_LB = tkinter.Listbox(self, height = 4, exportselection = False)
 		Activation_Function_LB.pack(in_ = Location)
 		Activation_Function_LB.bind('<<ListboxSelect>>',self.On_Select)
 		for Function in self.Parent.Metadata.Activation_Functions:
 			Activation_Function_LB.insert(0, Function)
-		EM_Label = Tkinter.Label(self, wraplength = 150, justify = 'left', text = 'Please select your evaluation method:')
+		EM_Label = tkinter.Label(self, wraplength = 150, justify = 'left', text = 'Please select your evaluation method:')
 		EM_Label.pack(in_ = Location, anchor = 'w')
-		Evaluation_Method_LB = Tkinter.Listbox(self, height = 4, exportselection = False)
+		Evaluation_Method_LB = tkinter.Listbox(self, height = 4, exportselection = False)
 		Evaluation_Method_LB.pack(in_ = Location)
 		Evaluation_Method_LB.bind('<<ListboxSelect>>',self.On_Select)
 		for EM in self.Parent.Metadata.Evaluation_Methods:
@@ -75,12 +76,12 @@ class Main_Menu(Tkinter.Frame):
 		self.Buttons.extend([Activation_Function_LB, Evaluation_Method_LB])
 
 	def Pack_Middle_Right(self, Location):
-		First_Section = Tkinter.Frame(self, width = 400)
-		Second_Section = Tkinter.Frame(self, width = 400)
-		Third_Section = Tkinter.Frame(self, width = 400)
-		Fourth_Section = Tkinter.Frame(self, width = 400)
-		Fifth_Section = Tkinter.Frame(self, width = 400)
-		Sixth_Section = Tkinter.Frame(self, width = 400)
+		First_Section = tkinter.Frame(self, width = 400)
+		Second_Section = tkinter.Frame(self, width = 400)
+		Third_Section = tkinter.Frame(self, width = 400)
+		Fourth_Section = tkinter.Frame(self, width = 400)
+		Fifth_Section = tkinter.Frame(self, width = 400)
+		Sixth_Section = tkinter.Frame(self, width = 400)
 
 		First_Section.pack(in_ = Location, side='top', fill='both', pady = 5)
 		Second_Section.pack(in_ = Location, side='top', fill='both', pady = 5)
@@ -89,57 +90,58 @@ class Main_Menu(Tkinter.Frame):
 		Fifth_Section.pack(in_=Location, side='top', fill='both', pady = 5)
 		Sixth_Section.pack(in_=Location, side='top', fill='both', pady = 5)
 
-		HN_Label = Tkinter.Label(self, wraplength = 200, justify = 'left', text = 'Number of hidden nodes:')
+		HN_Label = tkinter.Label(self, wraplength = 200, justify = 'left', text = 'Number of hidden nodes:')
 		HN_Label.pack(in_ = First_Section, side = 'left', anchor = 'w')
-		self.Hidden_Nodes_Entry = Tkinter.Entry(self, width = 5)
+		self.Hidden_Nodes_Entry = tkinter.Entry(self, width = 5)
 		self.Hidden_Nodes_Entry.pack(in_ = First_Section, side = 'right', padx = 5, anchor = 'e')
 
-		EP_Label = Tkinter.Label(self, wraplength = 200, justify = 'left', text = 'Number of epochs to train with:')
+		EP_Label = tkinter.Label(self, wraplength = 200, justify = 'left', text = 'Number of epochs to train with:')
 		EP_Label.pack(in_ = Second_Section, side = 'left', anchor = 'w', fill = 'both')
-		self.Epochs_Entry = Tkinter.Entry(self, width = 5)
+		self.Epochs_Entry = tkinter.Entry(self, width = 5)
 		self.Epochs_Entry.pack(in_ = Second_Section, side = 'right', padx = 5, anchor = 'e')
 
-		LR_Label = Tkinter.Label(self, wraplength = 200, justify = 'left', text = 'Learning Rate:')
+		LR_Label = tkinter.Label(self, wraplength = 200, justify = 'left', text = 'Learning Rate:')
 		LR_Label.pack(in_ = Third_Section, side = 'left', anchor = 'w', fill = 'both')
-		self.Learning_Rate_Entry = Tkinter.Entry(self, width = 5)
+		self.Learning_Rate_Entry = tkinter.Entry(self, width = 5)
 		self.Learning_Rate_Entry.pack(in_ = Third_Section, side = 'right', padx = 5, anchor = 'e')
 		self.Learning_Rate_Entry.insert(0,'1')
 
-		M_Label = Tkinter.Label(self, wraplength = 200, justify = 'left', text = 'Momentum:')
+		M_Label = tkinter.Label(self, wraplength = 200, justify = 'left', text = 'Momentum:')
 		M_Label.pack(in_ = Fourth_Section, side = 'left', anchor = 'w', fill = 'both')
-		self.Momentum_Entry = Tkinter.Entry(self, width = 5)
+		self.Momentum_Entry = tkinter.Entry(self, width = 5)
 		self.Momentum_Entry.pack(in_ = Fourth_Section, side = 'right', padx = 5, anchor = 'e')
 		self.Momentum_Entry.insert(0,'0')
 
-		Percent_Label = Tkinter.Label(self, wraplength = 200, justify = 'left', text = 'Percent of data used for training:')
+		Percent_Label = tkinter.Label(self, wraplength = 200, justify = 'left', text = 'Percent of data used for training:')
 		Percent_Label.pack(in_ = Fifth_Section, side = 'left', anchor = 'w', fill = 'both')
-		self.Percent_Entry = Tkinter.Entry(self, width = 5)
+		self.Percent_Entry = tkinter.Entry(self, width = 5)
 		self.Percent_Entry.pack(in_ = Fifth_Section, side = 'right', padx = 5, anchor = 'e')
 
-		Folds_Label = Tkinter.Label(self, wraplength = 200, justify = 'left', text = 'Number of folds used in cross-validation:')
+		Folds_Label = tkinter.Label(self, wraplength = 200, justify = 'left', text = 'Number of folds used in cross-validation:')
 		Folds_Label.pack(in_ = Sixth_Section, side = 'left', anchor = 'w', fill = 'both')
-		self.Folds_Entry = Tkinter.Entry(self, width = 5)
+		self.Folds_Entry = tkinter.Entry(self, width = 5)
 		self.Folds_Entry.pack(in_ = Sixth_Section, side = 'right', padx = 5, anchor = 'e')
 
 		self.Buttons.extend([self.Hidden_Nodes_Entry, self.Epochs_Entry, self.Percent_Entry, self.Folds_Entry, self.Learning_Rate_Entry, self.Momentum_Entry])
 		
 	def Pack_Bottom(self, Location):
 		Location.pack(side='bottom', pady = 20)
-		Run_Button = Tkinter.Button(self, text = 'Run', width = 20, height = 2, command = self.Run_Neural_Network)
+		Run_Button = tkinter.Button(self, text = 'Run', width = 20, height = 2, command = self.Run_Neural_Network)
 		Run_Button.pack(in_ = Location)
 		self.Buttons.append(Run_Button)
 
 	def On_Select(self, evt):
+		print('here')
 		w = evt.widget
 		index = int(w.curselection()[0])
 		value = w.get(index)
 		if value in self.Parent.Metadata.Evaluation_Methods:
 			for Statement in self.Parent.Metadata.Evaluation_Methods[value]['Response']:
-				exec Statement
+				exec(Statement)
 			self.Evaluation_Method = value
 		elif value in self.Parent.Metadata.Activation_Functions:
 			for Statement in self.Parent.Metadata.Activation_Functions[value]['Response']:
-				exec Statement
+				exec(Statement)
 			self.Activation_Function = self.Parent.Metadata.Activation_Functions[value]['Function']
 			self.Activation_Derivative = self.Parent.Metadata.Activation_Functions[value]['Derivative']
 			self.Activation_Method = value
@@ -165,7 +167,7 @@ class Main_Menu(Tkinter.Frame):
 				return
 			if self.Parent.Metadata.Evaluation_Methods[self.Evaluation_Method]['Required']:
 				for Required in self.Parent.Metadata.Evaluation_Methods[self.Evaluation_Method]['Required']:
-					exec Required.keys()[0]
+					Result = True
 					if Result:
 						pass
 					else:
@@ -217,54 +219,54 @@ class Main_Menu(Tkinter.Frame):
 		# # Remove This After use
 		# self.Results.Testing_Data.to_csv('results.txt',sep='|')
 
-class Evaluation_View(Tkinter.Frame):
+class Evaluation_View(tkinter.Frame):
 
 	def __init__(self, parent):
-		Tkinter.Frame.__init__(self, parent)
+		tkinter.Frame.__init__(self, parent)
 		self.Parent = parent
 		self.Buttons = []
 		self.Pack()
 
 	def Pack(self):
-		Body = Tkinter.Frame(self)
+		Body = tkinter.Frame(self)
 		Body.pack(pady=20)
 
-		Top = Tkinter.Frame(self)
-		self.Middle = Tkinter.Frame(self)
-		Bottom = Tkinter.Frame(self)
+		Top = tkinter.Frame(self)
+		self.Middle = tkinter.Frame(self)
+		Bottom = tkinter.Frame(self)
 
 		Top.pack(in_ = Body)
 		self.Middle.pack(in_ = Body)
 		Bottom.pack(in_ = Body)
 
-		self.Accuracy_Label = Tkinter.Label(self, text = 'Observed Accuracy: None')
+		self.Accuracy_Label = tkinter.Label(self, text = 'Observed Accuracy: None')
 		self.Accuracy_Label.pack(in_ = Top)
 
-		self.Kappa_Label = Tkinter.Label(self, text = 'Kappa Statistic: None')
+		self.Kappa_Label = tkinter.Label(self, text = 'Kappa Statistic: None')
 		self.Kappa_Label.pack(in_ = Top)
 
-		self.R2_Label = Tkinter.Label(self, text = 'R Squared: None')
+		self.R2_Label = tkinter.Label(self, text = 'R Squared: None')
 		self.R2_Label.pack(in_ = Top)
 
-		self.Rel_Abs_Error_Label = Tkinter.Label(self, text = 'Relative Absolute Error: None')
+		self.Rel_Abs_Error_Label = tkinter.Label(self, text = 'Relative Absolute Error: None')
 		self.Rel_Abs_Error_Label.pack(in_=Top)
 
-		self.Mean_Abs_Error_Label = Tkinter.Label(self, text = 'Mean Absolute Error: None')
+		self.Mean_Abs_Error_Label = tkinter.Label(self, text = 'Mean Absolute Error: None')
 		self.Mean_Abs_Error_Label.pack(in_ = Top)
 
-		self.Root_Mean_Sq_Error_Label = Tkinter.Label(self, text = 'Root Mean Squared Error: None')
+		self.Root_Mean_Sq_Error_Label = tkinter.Label(self, text = 'Root Mean Squared Error: None')
 		self.Root_Mean_Sq_Error_Label.pack(in_=Top)
 
-		self.Root_Rel_Sq_Error_Label = Tkinter.Label(self, text = 'Root Relative Squared Error: None')
+		self.Root_Rel_Sq_Error_Label = tkinter.Label(self, text = 'Root Relative Squared Error: None')
 		self.Root_Rel_Sq_Error_Label.pack(in_=Top)
 
-		Confusion_Matrix_Button =  Tkinter.Button(self, width = 30, height = 2, text = 'View Normalized Confusion Matrix', command = self.Call_Confusion_Matrix)
+		Confusion_Matrix_Button =  tkinter.Button(self, width = 30, height = 2, text = 'View Normalized Confusion Matrix', command = self.Call_Confusion_Matrix)
 		Confusion_Matrix_Button.pack(in_ = Bottom)
 
-		ROC_Curves_Button = Tkinter.Button(self, width = 30, height = 2, text = 'View ROC Curves', command = self.Call_ROC_Curves)
+		ROC_Curves_Button = tkinter.Button(self, width = 30, height = 2, text = 'View ROC Curves', command = self.Call_ROC_Curves)
 		ROC_Curves_Button.pack(in_=Bottom)
 
-		Return_Button = Tkinter.Button(self, width = 20, height = 2, text = 'Return to Main Menu', command = self.Return_Main_Menu)
+		Return_Button = tkinter.Button(self, width = 20, height = 2, text = 'Return to Main Menu', command = self.Return_Main_Menu)
 		Return_Button.pack(in_=Bottom)
 
 	def Pull_Values(self):

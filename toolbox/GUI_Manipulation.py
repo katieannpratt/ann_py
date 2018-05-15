@@ -1,4 +1,4 @@
-import tkMessageBox
+import Tkinter as tkinter
 
 def Disable_Buttons(root,Buttons):
 	for b in Buttons:
@@ -19,4 +19,4 @@ def Update_Label(root,Label,Label_Text):
 	root.update()
 
 def Message(Metadata):
-	tkMessageBox.showinfo(Metadata["Title"],Metadata["Message"])
+	tkinter.tkMessageBox.showinfo(Metadata["Title"],Metadata["Message"])

@@ -11,8 +11,8 @@ class Backprop_Model(object):
 		self.Main_Menu = parent
 		self.Training_Data = Training_Data
 		self.Prep_Data()
-		exec "self.Activation_Function = " + self.Main_Menu.Activation_Function
-		exec "self.Activation_Derivative = " + self.Main_Menu.Activation_Derivative
+		exec("self.Activation_Function = " + self.Main_Menu.Activation_Function)
+		exec("self.Activation_Derivative = " + self.Main_Menu.Activation_Derivative)
 		self.Train()
 
 	def Build_Initial_Weights(self):
@@ -113,9 +113,9 @@ class Backprop_Model(object):
 		# An array for output error is initalized
 		Output_Error = []
 		# The first loop is for the Output Layer only, iterating through each Output Node
-		for Target, Output in zip(Target, Outputs[-1]):
+		for Target1, Output in zip(Target, Outputs[-1]):
 			# An Error is then created for each Output Node by mulitplying the Derivative of the Activation Function at the Output value by the difference between the Target value and the Output value
-			Output_Error.append(self.Activation_Derivative(Output)*(Target - Output))
+			Output_Error.append(self.Activation_Derivative(Output)*(Target1 - Output))
 		# Modify Output Weights accordingly
 		for i, k in enumerate(zip(Weights[-1], Changes[-1])):
 			# Each weight is then looped through to apply the modifications to the weights
@@ -132,6 +132,8 @@ class Backprop_Model(object):
 				# After the weight has been updated, the Change is stored for the next iteration
 				Change[j] = (Output_Error[i] * Previous_Output * self.Main_Menu.Learning_Rate) + (Change[j] * self.Main_Menu.Momentum)
 		#Calculate Hidden Node Deltas
+		# print(Change)
+		# raw_input()
 		Hidden_Error = []
 		for i, Neuron_Output in enumerate(Outputs[-2][:-1]):
 			N_Weights = []

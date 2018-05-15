@@ -14,7 +14,7 @@ class Test_Data(object):
 		self.Main_Menu = parent
 		self.Testing_Data = Testing_Data
 		self.Weights = Weights
-		exec "self.Activation_Function = " + self.Main_Menu.Activation_Function
+		exec("self.Activation_Function = " + self.Main_Menu.Activation_Function)
 		self.Prep_Data()
 		self.Add_Calculated_Targets()
 

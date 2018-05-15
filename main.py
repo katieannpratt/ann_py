@@ -1,4 +1,4 @@
-import Tkinter
+import Tkinter as tkinter
 import tkFileDialog
 
 from toolbox import GUI_Manipulation
@@ -7,10 +7,10 @@ from toolbox import Metadata_Reader
 from toolbox import Frames
 
 
-class MainApplication(Tkinter.Frame):
+class MainApplication(tkinter.Frame):
 
 	def __init__(self, parent):
-		Tkinter.Frame.__init__(self, parent)
+		tkinter.Frame.__init__(self, parent)
 		self.Parent = parent
 		self.Metadata = Metadata_Reader.Read_Metadata()
 		self.Pack()
@@ -24,12 +24,12 @@ class MainApplication(Tkinter.Frame):
 		
 	def Load_Frames(self):
 		for F in self.Metadata.Frames:
-			exec "self.Metadata.Frames[F] = Frames."+F+"(self)"
+			exec("self.Metadata.Frames[F] = Frames."+F+"(self)")
 			self.Metadata.Frames[F].grid(row=0, column=0, sticky='nsew')
 
 
 if __name__ == "__main__":
-	root = Tkinter.Tk()
+	root = tkinter.Tk()
 	MainApplication(root).pack()
 	root.mainloop()
 
