@@ -1,10 +1,10 @@
 from __future__ import division
 import numpy as np
-import Tkinter as tkinter
-import ttk
-import tkFileDialog
+import  tkinter
+from tkinter import ttk
+from tkinter import filedialog as tkFileDialog
 # from tkinter import filedialog
-import tkFont
+from tkinter import font as tkFont
 import random
 import copy
 import pandas as pd

@@ -1,4 +1,4 @@
-import Tkinter as tkinter
+import tkinter
 
 def Disable_Buttons(root,Buttons):
 	for b in Buttons:

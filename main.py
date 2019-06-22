@@ -1,5 +1,5 @@
-import Tkinter as tkinter
-import tkFileDialog
+import tkinter
+from tkinter import filedialog as tkFileDialog
 
 from toolbox import GUI_Manipulation
 from toolbox import Metadata_Reader
